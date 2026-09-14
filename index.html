@@ -3,338 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar de Ofertas Custo-Benefício | IOXCOTA</title>
-    <!-- Tailwind CSS via CDN para manter o design original sem build -->
+    <title>Radar de Ofertas Custo-Benefício | VendaMax Style</title>
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Ícones Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#0B1120', // Fundo principal
+                            800: '#151E32', // Cards
+                            700: '#1E293B', // Bordas/Inputs
+                        },
+                        gold: {
+                            400: '#FBBF24', // Destaques/Preços
+                            500: '#F59E0B',
+                        },
+                        cyan: {
+                            400: '#22D3EE', // Tech/Detalhes
+                        },
+                        purple: {
+                            500: '#8B5CF6', // Ações/Roxo
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* Ajustes finos para scrollbar e animações */
-        .scrollbar-none::-webkit-scrollbar { display: none; }
-        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
-        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: .7; } }
-        .animate-pulse-slow { animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap');
+        
+        body { background-color: #0B1120; color: #F8FAFC; }
+        
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Efeitos de Glow */
+        .glow-gold { box-shadow: 0 0 15px rgba(251, 191, 36, 0.15); }
+        .glow-cyan { box-shadow: 0 0 15px rgba(34, 211, 238, 0.15); }
+        
+        /* Input numérico sem setas padrão feias */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-50 font-sans antialiased min-h-screen selection:bg-amber-500/20">
+<body class="min-h-screen font-sans antialiased selection:bg-gold-400/30">
 
-    <div class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
+    <div class="max-w-7xl mx-auto p-4 md:p-8 space-y-10">
         
-        <!-- CABEÇALHO -->
-        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-900 pb-6">
-            <div class="flex items-center gap-3">
-                <div class="p-3 bg-gradient-to-br from-amber-500/20 to-cyan-500/20 rounded-2xl border border-slate-800 text-amber-500 shadow-lg shadow-amber-500/5">
-                    <i data-lucide="cpu" class="h-8 w-8 animate-pulse-slow"></i>
+        <!-- CABEÇALHO & MOTORES EXTERNOS -->
+        <header class="space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-navy-700 pb-6">
+                <div class="flex items-center gap-4">
+                    <div class="p-3 bg-gradient-to-br from-gold-400/20 to-purple-500/20 rounded-2xl border border-gold-400/30 glow-gold">
+                        <i data-lucide="rocket" class="h-8 w-8 text-gold-400"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-black tracking-tight text-white">
+                            Radar <span class="text-gold-400">VendaMax</span>
+                        </h1>
+                        <p class="text-sm text-slate-400 font-medium">Comparador de Hardware Multiloja • Mercado Real</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-black tracking-tight bg-gradient-to-r from-slate-50 via-slate-200 to-slate-400 bg-clip-text text-transparent">
-                        Radar de Ofertas Custo-Benefício
-                    </h1>
-                    <p class="text-xs md:text-sm text-slate-400 font-medium tracking-wide">
-                        Enquadramento inteligente de hardware e injeção automática de afiliados
-                    </p>
+                
+                <!-- Motores de Busca Externos -->
+                <div class="flex flex-wrap gap-2">
+                    <a href="https://www.mercadolivre.com.br/jm/search?as_word=pc+gamer" target="_blank" class="px-4 py-2 bg-yellow-400 text-blue-900 font-bold rounded-lg text-xs hover:bg-yellow-300 transition flex items-center gap-2">
+                        <i data-lucide="search" class="h-3 w-3"></i> Buscar no ML
+                    </a>
+                    <a href="https://www.magazineluiza.com.br/busca/pc+gamer/" target="_blank" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg text-xs hover:bg-blue-500 transition flex items-center gap-2">
+                        <i data-lucide="search" class="h-3 w-3"></i> Buscar no Magalu
+                    </a>
+                    <a href="https://s.shopee.com.br/3fZqZqZqZq" target="_blank" class="px-4 py-2 bg-orange-500 text-white font-bold rounded-lg text-xs hover:bg-orange-400 transition flex items-center gap-2">
+                        <i data-lucide="search" class="h-3 w-3"></i> Buscar na Shopee
+                    </a>
                 </div>
             </div>
+
+            <!-- CONTROLES DIGITÁVEIS -->
+            <section class="bg-navy-800 border border-navy-700 rounded-2xl p-6 grid grid-cols-1 md:grid-cols-2 gap-6 shadow-xl">
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="wallet" class="h-4 w-4"></i> Orçamento Alvo (R$)
+                    </label>
+                    <input type="number" id="budget-input" value="4500" min="1000" max="20000" step="100"
+                           class="w-full bg-navy-900 border border-navy-700 text-gold-400 font-mono text-xl font-bold px-4 py-3 rounded-xl focus:outline-none focus:border-gold-400 transition">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-purple-500 uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="sliders-horizontal" class="h-4 w-4"></i> Margem Tolerância (+R$)
+                    </label>
+                    <input type="number" id="tolerance-input" value="500" min="0" max="5000" step="50"
+                           class="w-full bg-navy-900 border border-navy-700 text-purple-400 font-mono text-xl font-bold px-4 py-3 rounded-xl focus:outline-none focus:border-purple-500 transition">
+                </div>
+
+                <div class="md:col-span-2 flex items-center justify-between text-xs font-medium text-slate-400 bg-navy-900/50 p-3 rounded-lg border border-navy-700/50">
+                    <span>Filtrando setups entre <strong class="text-gold-400" id="range-min">R$ 4.500</strong> e <strong class="text-cyan-400" id="range-max">R$ 5.000</strong></span>
+                    <div class="flex gap-4">
+                        <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Ideal</span>
+                        <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-cyan-400"></span> Na Margem</span>
+                        <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Acima</span>
+                    </div>
+                </div>
+            </section>
         </header>
 
-        <!-- CONTROLES DE ORÇAMENTO -->
-        <section class="bg-slate-900/20 border border-slate-900/60 rounded-3xl p-6 backdrop-blur-xl grid grid-cols-1 md:grid-cols-2 gap-8 shadow-2xl">
-            <div class="space-y-3">
-                <div class="flex justify-between items-center">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <i data-lucide="sliders-horizontal" class="h-4 w-4 text-amber-500"></i> Investimento Alvo
-                    </label>
-                    <span id="budget-display" class="text-lg font-black font-mono text-amber-500 bg-amber-500/10 px-3 py-1 rounded-xl border border-amber-500/20">R$ 4.500</span>
-                </div>
-                <input type="range" id="budget-slider" min="2000" max="10000" step="250" value="4500" 
-                       class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+        <!-- GRID DE SETUPS 2x6 -->
+        <main>
+            <h2 class="text-xl font-black text-white mb-6 flex items-center gap-2">
+                <i data-lucide="layers" class="h-5 w-5 text-gold-400"></i> 6 Configurações Recomendadas
+            </h2>
+            
+            <div id="setups-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Cards gerados via JS -->
             </div>
+        </main>
 
-            <div class="space-y-3">
-                <div class="flex justify-between items-center">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <i data-lucide="alert-triangle" class="h-4 w-4 text-cyan-400"></i> Margem de Tolerância (+)
-                    </label>
-                    <span id="tolerance-display" class="text-lg font-black font-mono text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-xl border border-cyan-500/20">R$ 500</span>
-                </div>
-                <input type="range" id="tolerance-slider" min="0" max="2000" step="50" value="500" 
-                       class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
-            </div>
-
-            <div class="md:col-span-2 bg-slate-900/50 border border-slate-900/80 p-4 rounded-xl flex items-center justify-between flex-wrap gap-4 text-xs font-medium text-slate-400">
-                <div>Mapeando de <strong id="min-budget" class="text-amber-500">R$ 4.500</strong> até o limite de <strong id="max-budget" class="text-cyan-400">R$ 5.000</strong>.</div>
-                <div class="flex gap-4">
-                    <span class="flex items-center gap-1.5 text-emerald-400"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Preço Ideal</span>
-                    <span class="flex items-center gap-1.5 text-cyan-400"><span class="h-2 w-2 rounded-full bg-cyan-500"></span> Na Margem</span>
-                    <span class="flex items-center gap-1.5 text-rose-500"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Descartado</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- CARROSSEL DE SETUPS -->
-        <div class="space-y-6">
-            <div class="flex items-center justify-between">
-                <h2 class="text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-2">
-                    <i data-lucide="sparkles" class="h-5 w-5 text-amber-500"></i> 6 Opções de Hardware em Lote
-                </h2>
-                <div class="flex gap-2">
-                    <button onclick="scrollCarousel('left')" class="p-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl transition-all text-slate-400 hover:text-slate-200">
-                        <i data-lucide="chevron-left" class="h-5 w-5"></i>
-                    </button>
-                    <button onclick="scrollCarousel('right')" class="p-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl transition-all text-slate-400 hover:text-slate-200">
-                        <i data-lucide="chevron-right" class="h-5 w-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div id="carousel-container" class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scroll-smooth scrollbar-none">
-                <!-- Os cards serão gerados aqui pelo JavaScript -->
-            </div>
-
-            <!-- DOTS DE PAGINAÇÃO -->
-            <div id="pagination-dots" class="flex justify-center gap-2 pt-2"></div>
-        </div>
-
-        <!-- RODAPÉ PP2.2 MERCADO LIVRE -->
-        <footer class="border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-400 bg-slate-900/10 p-5 rounded-2xl border border-slate-900/50">
+        <!-- RODAPÉ PP2.2 -->
+        <footer class="border-t border-navy-700 pt-6 mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
             <div class="flex items-center gap-2">
-                <div class="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></div>
-                <span><b>Divulgação Exigida:</b> Visite também nossa Lista de Recomendações Oficial do ML</span>
+                <i data-lucide="shield-check" class="h-4 w-4 text-gold-400"></i>
+                <span>Divulgação Obrigatória PP2.2: Confira nossa vitrine oficial.</span>
             </div>
-            <a href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-lg transition-colors">
-                <i data-lucide="external-link" class="h-4 w-4"></i> Abrir Vitrine Oficial Mercado Livre
+            <a href="#" target="_blank" class="text-gold-400 hover:text-gold-500 font-bold underline decoration-gold-400/30 underline-offset-4">
+                Acessar Vitrine Mercado Livre →
             </a>
         </footer>
 
-        <!-- TOAST DE COPIA -->
-        <div id="toast" class="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider px-5 py-3.5 rounded-xl border border-emerald-400/20 shadow-2xl flex items-center gap-2 transition-all opacity-0 translate-y-2 pointer-events-none">
-            <i data-lucide="check" class="h-4 w-4"></i>
-            <span id="toast-msg">Configuração copiada!</span>
+        <!-- TOAST -->
+        <div id="toast" class="fixed bottom-8 right-8 z-50 bg-emerald-500 text-white font-bold text-xs uppercase px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 translate-y-20 opacity-0 transition-all duration-300">
+            <i data-lucide="check-circle" class="h-5 w-5"></i>
+            <span id="toast-msg">Copiado!</span>
         </div>
     </div>
 
-    <!-- LÓGICA JAVASCRIPT PURA (SUBSTITUI O REACT) -->
+    <!-- LÓGICA JAVASCRIPT PURA -->
     <script>
-        // --- BASE DE DADOS SIMULADA (MESMA LÓGICA DO OFERTAS.JS) ---
+        // --- CONFIGURAÇÃO DE AFILIADOS (Baseado no Limpa_Link.py) ---
+        const AFFILIATES = {
+            AMAZON_TAG: "coloposte-20",
+            SHOPEE_ID: "18338650355",
+            MAGALU_BASE: "https://www.magazinevoce.com.br/magazinehdmicroloja"
+        };
+
+        // --- BANCO DE DADOS MULTILOJA (Mercado Real) ---
+        // Links de lojas não-afiliadas são placeholders (#) ou buscas genéricas
         const DB = {
             cpus: [
-                { name: "AMD Ryzen 5 5600", price: 850, url: "https://amazon.com.br/exemplo1" },
-                { name: "Intel Core i5-12400F", price: 950, url: "https://amazon.com.br/exemplo2" },
-                { name: "AMD Ryzen 7 5700X", price: 1199, url: "https://amazon.com.br/exemplo3" },
-                { name: "Intel Core i5-13400F", price: 1300, url: "https://amazon.com.br/exemplo4" },
-                { name: "AMD Ryzen 5 7600", price: 1450, url: "https://amazon.com.br/exemplo5" },
-                { name: "AMD Ryzen 9 5900X", price: 1800, url: "https://amazon.com.br/exemplo6" }
+                { name: "AMD Ryzen 5 5600", price: 850, shop: "Pichau", url: "https://www.pichau.com.br/hardware/processadores" },
+                { name: "Intel Core i5-12400F", price: 950, shop: "Terabyte", url: "https://www.terabyteshop.com.br/produto/cpu" },
+                { name: "AMD Ryzen 7 5700X", price: 1199, shop: "Amazon", url: "https://www.amazon.com.br/dp/B09TPY4J3G" },
+                { name: "Intel Core i5-13400F", price: 1300, shop: "Kabum", url: "https://www.kabum.com.br/cgi-bin/site/busca?q=i5+13400f" },
+                { name: "AMD Ryzen 5 7600", price: 1450, shop: "Terabyte", url: "#" },
+                { name: "AMD Ryzen 9 5900X", price: 1800, shop: "Mirão", url: "#" }
             ],
             gpus: [
-                { name: "RX 6600 8GB", price: 1290, url: "https://amazon.com.br/exemplo7" },
-                { name: "RTX 3050 6GB", price: 1350, url: "https://amazon.com.br/exemplo8" },
-                { name: "RTX 3060 12GB", price: 1950, url: "https://amazon.com.br/exemplo9" },
-                { name: "RTX 4060 8GB", price: 2100, url: "https://amazon.com.br/exemplo10" },
-                { name: "RX 7700 XT 12GB", price: 2800, url: "https://amazon.com.br/exemplo11" },
-                { name: "RTX 4070 12GB", price: 3500, url: "https://amazon.com.br/exemplo12" }
+                { name: "RX 6600 8GB Eagle", price: 1290, shop: "Pichau", url: "https://www.pichau.com.br/hardware/placas-de-video" },
+                { name: "RTX 3050 6GB", price: 1350, shop: "Kabum", url: "#" },
+                { name: "RTX 3060 12GB", price: 1950, shop: "Amazon", url: "https://www.amazon.com.br/dp/B08W8KS8C3" },
+                { name: "RTX 4060 8GB", price: 2100, shop: "Terabyte", url: "#" },
+                { name: "RX 7700 XT 12GB", price: 2800, shop: "Gigantec", url: "#" },
+                { name: "RTX 4070 12GB", price: 3500, shop: "Amazon", url: "#" }
             ],
             motherboards: [
-                { name: "B450M Steel Legend", price: 450, url: "#" },
-                { name: "B550M AORUS Elite", price: 799, url: "#" },
-                { name: "B550 Tomahawk", price: 850, url: "#" },
-                { name: "B660M DS3H", price: 650, url: "#" },
-                { name: "B650M Gaming Wifi", price: 1100, url: "#" },
-                { name: "X570 Crosshair", price: 1500, url: "#" }
+                { name: "B450M Steel Legend", price: 450, shop: "Pichau", url: "#" },
+                { name: "B550M AORUS Elite", price: 799, shop: "Kabum", url: "#" },
+                { name: "B550 Tomahawk", price: 850, shop: "Terabyte", url: "#" },
+                { name: "B660M DS3H", price: 650, shop: "Amazon", url: "#" },
+                { name: "B650M Gaming Wifi", price: 1100, shop: "Mirão", url: "#" },
+                { name: "X570 Crosshair", price: 1500, shop: "Gigantec", url: "#" }
             ],
             ram: [
-                { name: "16GB (2x8) DDR4 3200MHz", price: 280, url: "#" },
-                { name: "32GB (2x16) DDR4 3200MHz", price: 520, url: "#" },
-                { name: "32GB (2x16) DDR4 3600MHz RGB", price: 650, url: "#" },
-                { name: "32GB (2x16) DDR5 5200MHz", price: 850, url: "#" }
+                { name: "16GB (2x8) DDR4 3200MHz", price: 280, shop: "Pichau", url: "#" },
+                { name: "32GB (2x16) DDR4 3200MHz", price: 520, shop: "Kabum", url: "#" },
+                { name: "32GB (2x16) DDR4 3600MHz RGB", price: 650, shop: "Terabyte", url: "#" },
+                { name: "32GB (2x16) DDR5 5200MHz", price: 850, shop: "Amazon", url: "#" }
             ],
             storage: [
-                { name: "SSD NVMe 500GB Kingston", price: 240, url: "#" },
-                { name: "SSD NVMe 1TB Kingston NV2", price: 390, url: "#" },
-                { name: "SSD NVMe 1TB Samsung 980 Pro", price: 550, url: "#" }
+                { name: "SSD NVMe 500GB Kingston", price: 240, shop: "Kabum", url: "#" },
+                { name: "SSD NVMe 1TB NV2", price: 390, shop: "Amazon", url: "#" },
+                { name: "SSD NVMe 1TB 980 Pro", price: 550, shop: "Terabyte", url: "#" }
             ],
             psu: [
-                { name: "Fonte Corsair CX550 550W", price: 280, url: "#" },
-                { name: "Fonte MSI MAG A650BN 650W", price: 289, url: "#" },
-                { name: "Fonte XPG Pylon 750W Gold", price: 450, url: "#" }
+                { name: "Corsair CX550 550W", price: 280, shop: "Pichau", url: "#" },
+                { name: "MSI MAG A650BN 650W", price: 289, shop: "Kabum", url: "#" },
+                { name: "XPG Pylon 750W Gold", price: 450, shop: "Terabyte", url: "#" }
             ],
             cases: [
-                { name: "Gabinete Gamer Pichau HX550", price: 220, url: "#" },
-                { name: "Montech Air 903 Base", price: 350, url: "#" },
-                { name: "Lian Li Lancool 216", price: 550, url: "#" }
+                { name: "Gabinete Pichau HX550", price: 220, shop: "Pichau", url: "#" },
+                { name: "Montech Air 903 Base", price: 350, shop: "Terabyte", url: "#" },
+                { name: "Lian Li Lancool 216", price: 550, shop: "Amazon", url: "#" }
             ]
         };
 
-        // --- CONFIGURAÇÃO DE AFILIADOS ---
-        const AFFILIATE_CONFIG = {
-            AMAZON_TAG: "seutag-20",
-            SHOPEE_APP_ID: "seuappid",
-            LOJA_OBRIGATORIA_ML: "https://lista.mercadolivre.com.br/_CustId_123456"
-        };
-
-        // --- ESTADO DA APLICAÇÃO ---
-        let state = { budget: 4500, tolerance: 500, activeCard: 0 };
-
-        // --- FUNÇÕES UTILITÁRIAS ---
-        const injectAffiliateLink = (urlStr) => {
+        // --- LÓGICA DE INJEÇÃO DE AFILIADO (Port do Python) ---
+        function injectAffiliate(urlStr) {
+            if (!urlStr || urlStr === '#') return '#';
             try {
                 const url = new URL(urlStr);
-                const hostname = url.hostname.toLowerCase();
-                const cleanBaseUrl = url.origin + url.pathname;
-                if (hostname.includes('amazon.')) return `${cleanBaseUrl}?tag=${AFFILIATE_CONFIG.AMAZON_TAG}`;
-                if (hostname.includes('shopee.')) return `${cleanBaseUrl}?uls_trackid=${AFFILIATE_CONFIG.SHOPEE_APP_ID}`;
-                return cleanBaseUrl;
-            } catch (e) { return urlStr.split('?')[0].split('#')[0]; }
-        };
+                const domain = url.hostname.toLowerCase();
+                // Limpa parâmetros antigos
+                const cleanUrl = `${url.origin}${url.pathname}`;
+                
+                if (domain.includes('amazon.')) return `${cleanUrl}?tag=${AFFILIATES.AMAZON_TAG}`;
+                if (domain.includes('shopee.')) return `${cleanUrl}?uls_trackid=${AFFILIATES.SHOPEE_ID}`;
+                // Magalu e outros retornam limpos ou com base específica se necessário
+                return cleanUrl; 
+            } catch (e) {
+                return urlStr;
+            }
+        }
 
-        const formatCurrency = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        // --- ESTADO ---
+        let state = { budget: 4500, tolerance: 500 };
 
-        // --- GERAÇÃO DOS SETUPS ---
-        const generateSetups = () => {
-            const profiles = [
-                { title: "1. Ultra Economia (Home/E-Sports)", cpu: 0, gpu: 0, mobo: 0, ram: 0, ssd: 0, psu: 0, case: 0 },
-                { title: "2. Custo-Benefício Gamer Entrada", cpu: 1, gpu: 1, mobo: 0, ram: 1, ssd: 1, psu: 1, case: 1 },
-                { title: "3. Intermediário Intel Balanceado", cpu: 2, gpu: 2, mobo: 3, ram: 1, ssd: 1, psu: 1, case: 1 },
-                { title: "4. Máxima Performance AMD DDR4", cpu: 3, gpu: 3, mobo: 2, ram: 2, ssd: 1, psu: 1, case: 1 },
-                { title: "5. Nova Geração (AM5 DDR5)", cpu: 4, gpu: 4, mobo: 4, ram: 3, ssd: 1, psu: 1, case: 1 },
-                { title: "6. Entusiasta Streamer / Edição 4K", cpu: 5, gpu: 5, mobo: 4, ram: 3, ssd: 2, psu: 2, case: 2 }
-            ];
+        // --- PERFIS DE SETUP ---
+        const PROFILES = [
+            { title: "1. Ultra Economia (Home/E-Sports)", cpu: 0, gpu: 0, mobo: 0, ram: 0, ssd: 0, psu: 0, case: 0 },
+            { title: "2. Custo-Benefício Gamer Entrada", cpu: 1, gpu: 1, mobo: 0, ram: 1, ssd: 1, psu: 1, case: 1 },
+            { title: "3. Intermediário Intel Balanceado", cpu: 2, gpu: 2, mobo: 3, ram: 1, ssd: 1, psu: 1, case: 1 },
+            { title: "4. Máxima Performance AMD DDR4", cpu: 3, gpu: 3, mobo: 2, ram: 2, ssd: 1, psu: 1, case: 1 },
+            { title: "5. Nova Geração (AM5 DDR5)", cpu: 4, gpu: 4, mobo: 4, ram: 3, ssd: 1, psu: 1, case: 1 },
+            { title: "6. Entusiasta Streamer / Edição 4K", cpu: 5, gpu: 5, mobo: 4, ram: 3, ssd: 2, psu: 2, case: 2 }
+        ];
 
-            return profiles.map((p, idx) => {
+        // --- RENDERIZAÇÃO ---
+        function render() {
+            const grid = document.getElementById('setups-grid');
+            grid.innerHTML = '';
+            
+            const min = state.budget;
+            const max = state.budget + state.tolerance;
+            document.getElementById('range-min').innerText = `R$ ${min.toLocaleString('pt-BR')}`;
+            document.getElementById('range-max').innerText = `R$ ${max.toLocaleString('pt-BR')}`;
+
+            PROFILES.forEach((p, idx) => {
                 const parts = [
                     { type: "CPU", ...DB.cpus[p.cpu] },
                     { type: "GPU", ...DB.gpus[p.gpu] },
-                    { type: "Mobo", ...DB.motherboards[p.mobo] },
+                    { type: "MOBO", ...DB.motherboards[p.mobo] },
                     { type: "RAM", ...DB.ram[p.ram] },
                     { type: "SSD", ...DB.storage[p.ssd] },
                     { type: "PSU", ...DB.psu[p.psu] },
-                    { type: "Gabinete", ...DB.cases[p.case] }
+                    { type: "CASE", ...DB.cases[p.case] }
                 ];
-                
+
                 const total = parts.reduce((sum, part) => sum + part.price, 0);
-                let status = "perfect";
-                if (total > state.budget && total <= (state.budget + state.tolerance)) status = "within_margin";
-                if (total > (state.budget + state.tolerance)) status = "exceeded";
+                let status = "ideal"; // green
+                let statusText = "PREÇO IDEAL";
+                let cardBorder = "border-emerald-500/30";
+                let glow = "glow-gold";
 
-                return { id: idx, title: p.title, parts, total, leftover: state.budget - total, status };
-            });
-        };
-
-        // --- RENDERIZAÇÃO ---
-        const renderApp = () => {
-            const setups = generateSetups();
-            const container = document.getElementById('carousel-container');
-            const dotsContainer = document.getElementById('pagination-dots');
-            
-            container.innerHTML = '';
-            dotsContainer.innerHTML = '';
-
-            setups.forEach((setup, index) => {
-                const isActive = state.activeCard === index;
-                let cardClass = "flex-none w-[85vw] sm:w-[48vw] lg:w-[calc(33.333%-16px)] snap-start flex flex-col justify-between rounded-3xl border backdrop-blur-md transition-all duration-300 ";
-                let badgeClass = "text-3xs font-black uppercase tracking-widest px-2 py-0.5 rounded border shrink-0 ";
-                let badgeText = "Descartado";
-
-                if (setup.status === "perfect") {
-                    cardClass += isActive ? "border-emerald-500/30 bg-slate-900/30 shadow-xl shadow-emerald-950/5 scale-100 opacity-100" : "border-emerald-500/10 opacity-50 bg-slate-900/10 scale-[0.98]";
-                    badgeClass += "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-                    badgeText = "Preço Ideal";
-                } else if (setup.status === "within_margin") {
-                    cardClass += isActive ? "border-cyan-500/30 bg-slate-900/30 shadow-xl shadow-cyan-950/5 scale-100 opacity-100" : "border-cyan-500/10 opacity-50 bg-slate-900/10 scale-[0.98]";
-                    badgeClass += "bg-cyan-500/10 text-cyan-400 border-cyan-500/20";
-                    badgeText = "Na Margem";
-                } else {
-                    cardClass += "border-slate-900 opacity-20 bg-slate-950/10 scale-[0.97]";
-                    badgeClass += "bg-slate-500/10 text-slate-400 border-slate-700";
+                if (total > max) {
+                    status = "exceeded"; // red/grey
+                    statusText = "DESCARTADO";
+                    cardBorder = "border-rose-500/20 opacity-60 grayscale-[0.5]";
+                    glow = "";
+                } else if (total > min) {
+                    status = "margin"; // cyan
+                    statusText = "NA MARGEM";
+                    cardBorder = "border-cyan-400/30";
+                    glow = "glow-cyan";
                 }
 
-                const partsHtml = setup.parts.map(part => `
-                    <div class="flex justify-between items-center py-2.5 text-xs group">
-                        <div class="space-y-0.5 pr-3 flex-1 min-w-0">
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-3xs font-black uppercase text-slate-500 truncate tracking-wide">${part.type}</span>
-                                <a href="${injectAffiliateLink(part.url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-0.5 text-3xs font-bold px-1.5 py-0.5 bg-slate-900/40 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded transition-colors">
-                                    <i data-lucide="shopping-bag" class="h-1.5 w-1.5"></i> Loja
-                                </a>
-                            </div>
-                            <span class="font-semibold text-slate-300 truncate block group-hover:text-amber-500 transition-colors">${part.name}</span>
+                const partsHtml = parts.map(part => {
+                    const finalLink = injectAffiliate(part.url);
+                    const isAffiliate = ['Amazon', 'Shopee', 'Magalu'].includes(part.shop);
+                    const btnColor = isAffiliate ? 'bg-gold-400/10 text-gold-400 border-gold-400/30' : 'bg-slate-700/30 text-slate-300 border-slate-600';
+                    
+                    return `
+                    <div class="flex justify-between items-center py-3 border-b border-navy-700/50 last:border-0">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider">${part.type}</span>
+                            <span class="text-sm font-semibold text-slate-200 truncate max-w-[180px]">${part.name}</span>
                         </div>
-                        <span class="font-bold font-mono text-slate-400 bg-slate-900/40 px-2 py-0.5 rounded border border-slate-800/60 shrink-0">${formatCurrency(part.price)}</span>
+                        <div class="flex flex-col items-end gap-1">
+                            <span class="font-mono font-bold text-slate-300">R$ ${part.price}</span>
+                            <a href="${finalLink}" target="_blank" rel="noopener noreferrer" 
+                               class="text-[10px] font-bold px-2 py-0.5 rounded border ${btnColor} hover:brightness-125 transition flex items-center gap-1">
+                                <i data-lucide="shopping-bag" class="h-2.5 w-2.5"></i> ${part.shop}
+                            </a>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                const isBlocked = status === "exceeded";
+                
+                grid.innerHTML += `
+                <div class="bg-navy-800 border ${cardBorder} rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1 ${glow}">
+                    <div class="p-5 bg-navy-900/50 border-b border-navy-700 flex justify-between items-center">
+                        <h3 class="font-bold text-sm text-white truncate pr-4">${p.title}</h3>
+                        <span class="text-[10px] font-black px-2 py-1 rounded bg-navy-900 border border-navy-700 ${status === 'ideal' ? 'text-emerald-400 border-emerald-500/30' : status === 'margin' ? 'text-cyan-400 border-cyan-400/30' : 'text-rose-400 border-rose-500/30'}">
+                            ${statusText}
+                        </span>
                     </div>
-                `).join('');
-
-                const isExceeded = setup.status === "exceeded";
-                const btnClass = isExceeded 
-                    ? "w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-all bg-slate-900/20 text-slate-500 cursor-not-allowed"
-                    : "w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-all bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30";
-
-                container.innerHTML += `
-                    <div class="${cardClass}">
-                        <div class="p-5 border-b border-slate-900 bg-slate-900/20 flex justify-between items-center gap-4">
-                            <h3 class="font-extrabold text-xs text-slate-200 truncate">${setup.title}</h3>
-                            <span class="${badgeClass}">${badgeText}</span>
-                        </div>
-                        <div class="p-5 flex-1 divide-y divide-slate-900/40">${partsHtml}</div>
-                        <div class="p-5 border-t border-slate-900 bg-slate-900/40 flex flex-col sm:flex-row justify-between items-center gap-4">
-                            <div class="text-center sm:text-left w-full sm:w-auto">
-                                <span class="text-3xs uppercase tracking-widest font-bold text-slate-500 block">Soma Obtida</span>
-                                <div class="flex items-baseline justify-center sm:justify-start gap-1.5 mt-0.5">
-                                    <span class="text-lg font-black font-mono text-slate-100">${formatCurrency(setup.total)}</span>
-                                    <span class="text-3xs font-bold font-mono ${setup.leftover < 0 ? 'text-cyan-400' : 'text-emerald-400'}">
-                                        (${setup.leftover < 0 ? `+ ${formatCurrency(Math.abs(setup.leftover))}` : `Sobra ${formatCurrency(setup.leftover)}`})
-                                    </span>
-                                </div>
-                            </div>
-                            <button onclick="${isExceeded ? '' : `copySetup(${index})`}" class="${btnClass}" ${isExceeded ? 'disabled' : ''}>
-                                ${isExceeded ? "Bloqueado" : "Copiar Config"}
-                            </button>
-                        </div>
+                    <div class="p-5 flex-1 flex flex-col gap-1">
+                        ${partsHtml}
                     </div>
-                `;
-
-                // Dots
-                dotsContainer.innerHTML += `<span class="h-1.5 rounded-full transition-all duration-300 ${isActive ? 'w-6 bg-amber-500' : 'w-1.5 bg-slate-800'}"></span>`;
+                    <div class="p-5 bg-navy-900/30 border-t border-navy-700 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold block">Total Estimado</span>
+                            <span class="text-xl font-black font-mono ${isBlocked ? 'text-rose-400' : 'text-gold-400'}">R$ ${total.toLocaleString('pt-BR')}</span>
+                        </div>
+                        <button onclick="copySetup(${idx})" ${isBlocked ? 'disabled' : ''} 
+                                class="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition flex items-center gap-2 ${isBlocked ? 'bg-navy-700 text-slate-500 cursor-not-allowed' : 'bg-purple-500 text-white hover:bg-purple-600 shadow-lg shadow-purple-500/20'}">
+                            <i data-lucide="copy" class="h-3 w-3"></i> Copiar
+                        </button>
+                    </div>
+                </div>`;
             });
 
             lucide.createIcons();
-        };
+        }
 
         // --- INTERATIVIDADE ---
-        const updateDisplays = () => {
-            document.getElementById('budget-display').innerText = formatCurrency(state.budget);
-            document.getElementById('tolerance-display').innerText = formatCurrency(state.tolerance);
-            document.getElementById('min-budget').innerText = formatCurrency(state.budget);
-            document.getElementById('max-budget').innerText = formatCurrency(state.budget + state.tolerance);
-            renderApp();
-        };
+        const budgetInput = document.getElementById('budget-input');
+        const tolInput = document.getElementById('tolerance-input');
 
-        document.getElementById('budget-slider').addEventListener('input', (e) => { state.budget = Number(e.target.value); updateDisplays(); });
-        document.getElementById('tolerance-slider').addEventListener('input', (e) => { state.tolerance = Number(e.target.value); updateDisplays(); });
+        function updateState() {
+            state.budget = Number(budgetInput.value) || 0;
+            state.tolerance = Number(tolInput.value) || 0;
+            render();
+        }
 
-        const scrollCarousel = (dir) => {
-            const container = document.getElementById('carousel-container');
-            const step = container.clientWidth * 0.85;
-            container.scrollBy({ left: dir === 'left' ? -step : step, behavior: 'smooth' });
-        };
+        budgetInput.addEventListener('input', updateState);
+        tolInput.addEventListener('input', updateState);
 
-        const copySetup = (idx) => {
-            const setups = generateSetups();
-            const s = setups[idx];
-            const text = `${s.title}\n` + s.parts.map(p => `${p.type}: ${p.name} (${formatCurrency(p.price)})`).join('\n') + `\nTotal: ${formatCurrency(s.total)}`;
+        function copySetup(idx) {
+            const p = PROFILES[idx];
+            const parts = [DB.cpus[p.cpu], DB.gpus[p.gpu], DB.motherboards[p.mobo], DB.ram[p.ram], DB.storage[p.ssd], DB.psu[p.psu], DB.cases[p.case]];
+            const total = parts.reduce((s, i) => s + i.price, 0);
+            const text = `${p.title}\n` + parts.map(i => `${i.type}: ${i.name} (R$ ${i.price} - ${i.shop})`).join('\n') + `\nTOTAL: R$ ${total}`;
+            
             navigator.clipboard.writeText(text).then(() => {
                 const toast = document.getElementById('toast');
-                toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
-                setTimeout(() => toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none'), 2500);
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
             });
-        };
+        }
 
-        // Detectar scroll para atualizar dots
-        document.getElementById('carousel-container').addEventListener('scroll', (e) => {
-            const idx = Math.round(e.target.scrollLeft / (e.target.clientWidth * 0.85));
-            if (idx !== state.activeCard) { state.activeCard = idx; renderApp(); }
-        });
-
-        // Inicialização
-        updateDisplays();
+        // Init
+        render();
     </script>
 </body>
 </html>
