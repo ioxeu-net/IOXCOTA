@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de Ofertas Custo-Benefício | IOXCOTA</title>
+    <!-- Tailwind CSS via CDN para manter o design original sem build -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Ajustes finos para scrollbar e animações */
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: .7; } }
+        .animate-pulse-slow { animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-50 font-sans antialiased min-h-screen selection:bg-amber-500/20">
+
+    <div class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
+        
+        <!-- CABEÇALHO -->
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-900 pb-6">
+            <div class="flex items-center gap-3">
+                <div class="p-3 bg-gradient-to-br from-amber-500/20 to-cyan-500/20 rounded-2xl border border-slate-800 text-amber-500 shadow-lg shadow-amber-500/5">
+                    <i data-lucide="cpu" class="h-8 w-8 animate-pulse-slow"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-black tracking-tight bg-gradient-to-r from-slate-50 via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                        Radar de Ofertas Custo-Benefício
+                    </h1>
+                    <p class="text-xs md:text-sm text-slate-400 font-medium tracking-wide">
+                        Enquadramento inteligente de hardware e injeção automática de afiliados
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTROLES DE ORÇAMENTO -->
+        <section class="bg-slate-900/20 border border-slate-900/60 rounded-3xl p-6 backdrop-blur-xl grid grid-cols-1 md:grid-cols-2 gap-8 shadow-2xl">
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="sliders-horizontal" class="h-4 w-4 text-amber-500"></i> Investimento Alvo
+                    </label>
+                    <span id="budget-display" class="text-lg font-black font-mono text-amber-500 bg-amber-500/10 px-3 py-1 rounded-xl border border-amber-500/20">R$ 4.500</span>
+                </div>
+                <input type="range" id="budget-slider" min="2000" max="10000" step="250" value="4500" 
+                       class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+            </div>
+
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="alert-triangle" class="h-4 w-4 text-cyan-400"></i> Margem de Tolerância (+)
+                    </label>
+                    <span id="tolerance-display" class="text-lg font-black font-mono text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-xl border border-cyan-500/20">R$ 500</span>
+                </div>
+                <input type="range" id="tolerance-slider" min="0" max="2000" step="50" value="500" 
+                       class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+            </div>
+
+            <div class="md:col-span-2 bg-slate-900/50 border border-slate-900/80 p-4 rounded-xl flex items-center justify-between flex-wrap gap-4 text-xs font-medium text-slate-400">
+                <div>Mapeando de <strong id="min-budget" class="text-amber-500">R$ 4.500</strong> até o limite de <strong id="max-budget" class="text-cyan-400">R$ 5.000</strong>.</div>
+                <div class="flex gap-4">
+                    <span class="flex items-center gap-1.5 text-emerald-400"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Preço Ideal</span>
+                    <span class="flex items-center gap-1.5 text-cyan-400"><span class="h-2 w-2 rounded-full bg-cyan-500"></span> Na Margem</span>
+                    <span class="flex items-center gap-1.5 text-rose-500"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Descartado</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARROSSEL DE SETUPS -->
+        <div class="space-y-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-black tracking-tight text-slate-100 uppercase flex items-center gap-2">
+                    <i data-lucide="sparkles" class="h-5 w-5 text-amber-500"></i> 6 Opções de Hardware em Lote
+                </h2>
+                <div class="flex gap-2">
+                    <button onclick="scrollCarousel('left')" class="p-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl transition-all text-slate-400 hover:text-slate-200">
+                        <i data-lucide="chevron-left" class="h-5 w-5"></i>
+                    </button>
+                    <button onclick="scrollCarousel('right')" class="p-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl transition-all text-slate-400 hover:text-slate-200">
+                        <i data-lucide="chevron-right" class="h-5 w-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="carousel-container" class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scroll-smooth scrollbar-none">
+                <!-- Os cards serão gerados aqui pelo JavaScript -->
+            </div>
+
+            <!-- DOTS DE PAGINAÇÃO -->
+            <div id="pagination-dots" class="flex justify-center gap-2 pt-2"></div>
+        </div>
+
+        <!-- RODAPÉ PP2.2 MERCADO LIVRE -->
+        <footer class="border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-400 bg-slate-900/10 p-5 rounded-2xl border border-slate-900/50">
+            <div class="flex items-center gap-2">
+                <div class="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></div>
+                <span><b>Divulgação Exigida:</b> Visite também nossa Lista de Recomendações Oficial do ML</span>
+            </div>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded-lg transition-colors">
+                <i data-lucide="external-link" class="h-4 w-4"></i> Abrir Vitrine Oficial Mercado Livre
+            </a>
+        </footer>
+
+        <!-- TOAST DE COPIA -->
+        <div id="toast" class="fixed bottom-6 right-6 z-50 bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider px-5 py-3.5 rounded-xl border border-emerald-400/20 shadow-2xl flex items-center gap-2 transition-all opacity-0 translate-y-2 pointer-events-none">
+            <i data-lucide="check" class="h-4 w-4"></i>
+            <span id="toast-msg">Configuração copiada!</span>
+        </div>
+    </div>
+
+    <!-- LÓGICA JAVASCRIPT PURA (SUBSTITUI O REACT) -->
+    <script>
+        // --- BASE DE DADOS SIMULADA (MESMA LÓGICA DO OFERTAS.JS) ---
+        const DB = {
+            cpus: [
+                { name: "AMD Ryzen 5 5600", price: 850, url: "https://amazon.com.br/exemplo1" },
+                { name: "Intel Core i5-12400F", price: 950, url: "https://amazon.com.br/exemplo2" },
+                { name: "AMD Ryzen 7 5700X", price: 1199, url: "https://amazon.com.br/exemplo3" },
+                { name: "Intel Core i5-13400F", price: 1300, url: "https://amazon.com.br/exemplo4" },
+                { name: "AMD Ryzen 5 7600", price: 1450, url: "https://amazon.com.br/exemplo5" },
+                { name: "AMD Ryzen 9 5900X", price: 1800, url: "https://amazon.com.br/exemplo6" }
+            ],
+            gpus: [
+                { name: "RX 6600 8GB", price: 1290, url: "https://amazon.com.br/exemplo7" },
+                { name: "RTX 3050 6GB", price: 1350, url: "https://amazon.com.br/exemplo8" },
+                { name: "RTX 3060 12GB", price: 1950, url: "https://amazon.com.br/exemplo9" },
+                { name: "RTX 4060 8GB", price: 2100, url: "https://amazon.com.br/exemplo10" },
+                { name: "RX 7700 XT 12GB", price: 2800, url: "https://amazon.com.br/exemplo11" },
+                { name: "RTX 4070 12GB", price: 3500, url: "https://amazon.com.br/exemplo12" }
+            ],
+            motherboards: [
+                { name: "B450M Steel Legend", price: 450, url: "#" },
+                { name: "B550M AORUS Elite", price: 799, url: "#" },
+                { name: "B550 Tomahawk", price: 850, url: "#" },
+                { name: "B660M DS3H", price: 650, url: "#" },
+                { name: "B650M Gaming Wifi", price: 1100, url: "#" },
+                { name: "X570 Crosshair", price: 1500, url: "#" }
+            ],
+            ram: [
+                { name: "16GB (2x8) DDR4 3200MHz", price: 280, url: "#" },
+                { name: "32GB (2x16) DDR4 3200MHz", price: 520, url: "#" },
+                { name: "32GB (2x16) DDR4 3600MHz RGB", price: 650, url: "#" },
+                { name: "32GB (2x16) DDR5 5200MHz", price: 850, url: "#" }
+            ],
+            storage: [
+                { name: "SSD NVMe 500GB Kingston", price: 240, url: "#" },
+                { name: "SSD NVMe 1TB Kingston NV2", price: 390, url: "#" },
+                { name: "SSD NVMe 1TB Samsung 980 Pro", price: 550, url: "#" }
+            ],
+            psu: [
+                { name: "Fonte Corsair CX550 550W", price: 280, url: "#" },
+                { name: "Fonte MSI MAG A650BN 650W", price: 289, url: "#" },
+                { name: "Fonte XPG Pylon 750W Gold", price: 450, url: "#" }
+            ],
+            cases: [
+                { name: "Gabinete Gamer Pichau HX550", price: 220, url: "#" },
+                { name: "Montech Air 903 Base", price: 350, url: "#" },
+                { name: "Lian Li Lancool 216", price: 550, url: "#" }
+            ]
+        };
+
+        // --- CONFIGURAÇÃO DE AFILIADOS ---
+        const AFFILIATE_CONFIG = {
+            AMAZON_TAG: "seutag-20",
+            SHOPEE_APP_ID: "seuappid",
+            LOJA_OBRIGATORIA_ML: "https://lista.mercadolivre.com.br/_CustId_123456"
+        };
+
+        // --- ESTADO DA APLICAÇÃO ---
+        let state = { budget: 4500, tolerance: 500, activeCard: 0 };
+
+        // --- FUNÇÕES UTILITÁRIAS ---
+        const injectAffiliateLink = (urlStr) => {
+            try {
+                const url = new URL(urlStr);
+                const hostname = url.hostname.toLowerCase();
+                const cleanBaseUrl = url.origin + url.pathname;
+                if (hostname.includes('amazon.')) return `${cleanBaseUrl}?tag=${AFFILIATE_CONFIG.AMAZON_TAG}`;
+                if (hostname.includes('shopee.')) return `${cleanBaseUrl}?uls_trackid=${AFFILIATE_CONFIG.SHOPEE_APP_ID}`;
+                return cleanBaseUrl;
+            } catch (e) { return urlStr.split('?')[0].split('#')[0]; }
+        };
+
+        const formatCurrency = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        // --- GERAÇÃO DOS SETUPS ---
+        const generateSetups = () => {
+            const profiles = [
+                { title: "1. Ultra Economia (Home/E-Sports)", cpu: 0, gpu: 0, mobo: 0, ram: 0, ssd: 0, psu: 0, case: 0 },
+                { title: "2. Custo-Benefício Gamer Entrada", cpu: 1, gpu: 1, mobo: 0, ram: 1, ssd: 1, psu: 1, case: 1 },
+                { title: "3. Intermediário Intel Balanceado", cpu: 2, gpu: 2, mobo: 3, ram: 1, ssd: 1, psu: 1, case: 1 },
+                { title: "4. Máxima Performance AMD DDR4", cpu: 3, gpu: 3, mobo: 2, ram: 2, ssd: 1, psu: 1, case: 1 },
+                { title: "5. Nova Geração (AM5 DDR5)", cpu: 4, gpu: 4, mobo: 4, ram: 3, ssd: 1, psu: 1, case: 1 },
+                { title: "6. Entusiasta Streamer / Edição 4K", cpu: 5, gpu: 5, mobo: 4, ram: 3, ssd: 2, psu: 2, case: 2 }
+            ];
+
+            return profiles.map((p, idx) => {
+                const parts = [
+                    { type: "CPU", ...DB.cpus[p.cpu] },
+                    { type: "GPU", ...DB.gpus[p.gpu] },
+                    { type: "Mobo", ...DB.motherboards[p.mobo] },
+                    { type: "RAM", ...DB.ram[p.ram] },
+                    { type: "SSD", ...DB.storage[p.ssd] },
+                    { type: "PSU", ...DB.psu[p.psu] },
+                    { type: "Gabinete", ...DB.cases[p.case] }
+                ];
+                
+                const total = parts.reduce((sum, part) => sum + part.price, 0);
+                let status = "perfect";
+                if (total > state.budget && total <= (state.budget + state.tolerance)) status = "within_margin";
+                if (total > (state.budget + state.tolerance)) status = "exceeded";
+
+                return { id: idx, title: p.title, parts, total, leftover: state.budget - total, status };
+            });
+        };
+
+        // --- RENDERIZAÇÃO ---
+        const renderApp = () => {
+            const setups = generateSetups();
+            const container = document.getElementById('carousel-container');
+            const dotsContainer = document.getElementById('pagination-dots');
+            
+            container.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            setups.forEach((setup, index) => {
+                const isActive = state.activeCard === index;
+                let cardClass = "flex-none w-[85vw] sm:w-[48vw] lg:w-[calc(33.333%-16px)] snap-start flex flex-col justify-between rounded-3xl border backdrop-blur-md transition-all duration-300 ";
+                let badgeClass = "text-3xs font-black uppercase tracking-widest px-2 py-0.5 rounded border shrink-0 ";
+                let badgeText = "Descartado";
+
+                if (setup.status === "perfect") {
+                    cardClass += isActive ? "border-emerald-500/30 bg-slate-900/30 shadow-xl shadow-emerald-950/5 scale-100 opacity-100" : "border-emerald-500/10 opacity-50 bg-slate-900/10 scale-[0.98]";
+                    badgeClass += "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+                    badgeText = "Preço Ideal";
+                } else if (setup.status === "within_margin") {
+                    cardClass += isActive ? "border-cyan-500/30 bg-slate-900/30 shadow-xl shadow-cyan-950/5 scale-100 opacity-100" : "border-cyan-500/10 opacity-50 bg-slate-900/10 scale-[0.98]";
+                    badgeClass += "bg-cyan-500/10 text-cyan-400 border-cyan-500/20";
+                    badgeText = "Na Margem";
+                } else {
+                    cardClass += "border-slate-900 opacity-20 bg-slate-950/10 scale-[0.97]";
+                    badgeClass += "bg-slate-500/10 text-slate-400 border-slate-700";
+                }
+
+                const partsHtml = setup.parts.map(part => `
+                    <div class="flex justify-between items-center py-2.5 text-xs group">
+                        <div class="space-y-0.5 pr-3 flex-1 min-w-0">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-3xs font-black uppercase text-slate-500 truncate tracking-wide">${part.type}</span>
+                                <a href="${injectAffiliateLink(part.url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-0.5 text-3xs font-bold px-1.5 py-0.5 bg-slate-900/40 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded transition-colors">
+                                    <i data-lucide="shopping-bag" class="h-1.5 w-1.5"></i> Loja
+                                </a>
+                            </div>
+                            <span class="font-semibold text-slate-300 truncate block group-hover:text-amber-500 transition-colors">${part.name}</span>
+                        </div>
+                        <span class="font-bold font-mono text-slate-400 bg-slate-900/40 px-2 py-0.5 rounded border border-slate-800/60 shrink-0">${formatCurrency(part.price)}</span>
+                    </div>
+                `).join('');
+
+                const isExceeded = setup.status === "exceeded";
+                const btnClass = isExceeded 
+                    ? "w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-all bg-slate-900/20 text-slate-500 cursor-not-allowed"
+                    : "w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider transition-all bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30";
+
+                container.innerHTML += `
+                    <div class="${cardClass}">
+                        <div class="p-5 border-b border-slate-900 bg-slate-900/20 flex justify-between items-center gap-4">
+                            <h3 class="font-extrabold text-xs text-slate-200 truncate">${setup.title}</h3>
+                            <span class="${badgeClass}">${badgeText}</span>
+                        </div>
+                        <div class="p-5 flex-1 divide-y divide-slate-900/40">${partsHtml}</div>
+                        <div class="p-5 border-t border-slate-900 bg-slate-900/40 flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <div class="text-center sm:text-left w-full sm:w-auto">
+                                <span class="text-3xs uppercase tracking-widest font-bold text-slate-500 block">Soma Obtida</span>
+                                <div class="flex items-baseline justify-center sm:justify-start gap-1.5 mt-0.5">
+                                    <span class="text-lg font-black font-mono text-slate-100">${formatCurrency(setup.total)}</span>
+                                    <span class="text-3xs font-bold font-mono ${setup.leftover < 0 ? 'text-cyan-400' : 'text-emerald-400'}">
+                                        (${setup.leftover < 0 ? `+ ${formatCurrency(Math.abs(setup.leftover))}` : `Sobra ${formatCurrency(setup.leftover)}`})
+                                    </span>
+                                </div>
+                            </div>
+                            <button onclick="${isExceeded ? '' : `copySetup(${index})`}" class="${btnClass}" ${isExceeded ? 'disabled' : ''}>
+                                ${isExceeded ? "Bloqueado" : "Copiar Config"}
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Dots
+                dotsContainer.innerHTML += `<span class="h-1.5 rounded-full transition-all duration-300 ${isActive ? 'w-6 bg-amber-500' : 'w-1.5 bg-slate-800'}"></span>`;
+            });
+
+            lucide.createIcons();
+        };
+
+        // --- INTERATIVIDADE ---
+        const updateDisplays = () => {
+            document.getElementById('budget-display').innerText = formatCurrency(state.budget);
+            document.getElementById('tolerance-display').innerText = formatCurrency(state.tolerance);
+            document.getElementById('min-budget').innerText = formatCurrency(state.budget);
+            document.getElementById('max-budget').innerText = formatCurrency(state.budget + state.tolerance);
+            renderApp();
+        };
+
+        document.getElementById('budget-slider').addEventListener('input', (e) => { state.budget = Number(e.target.value); updateDisplays(); });
+        document.getElementById('tolerance-slider').addEventListener('input', (e) => { state.tolerance = Number(e.target.value); updateDisplays(); });
+
+        const scrollCarousel = (dir) => {
+            const container = document.getElementById('carousel-container');
+            const step = container.clientWidth * 0.85;
+            container.scrollBy({ left: dir === 'left' ? -step : step, behavior: 'smooth' });
+        };
+
+        const copySetup = (idx) => {
+            const setups = generateSetups();
+            const s = setups[idx];
+            const text = `${s.title}\n` + s.parts.map(p => `${p.type}: ${p.name} (${formatCurrency(p.price)})`).join('\n') + `\nTotal: ${formatCurrency(s.total)}`;
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+                setTimeout(() => toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none'), 2500);
+            });
+        };
+
+        // Detectar scroll para atualizar dots
+        document.getElementById('carousel-container').addEventListener('scroll', (e) => {
+            const idx = Math.round(e.target.scrollLeft / (e.target.clientWidth * 0.85));
+            if (idx !== state.activeCard) { state.activeCard = idx; renderApp(); }
+        });
+
+        // Inicialização
+        updateDisplays();
+    </script>
+</body>
+</html>
