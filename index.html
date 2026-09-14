@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IOXCOTA | Consultor Honesto de Hardware</title>
+    
+    <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Configuração Visual VendaMax -->
     <script>
         tailwind.config = {
             theme: {
@@ -14,27 +18,46 @@
                         navy: { 900: '#0B1120', 800: '#151E32', 700: '#1E293B' },
                         gold: { 400: '#FBBF24', 500: '#F59E0B' },
                         cyan: { 400: '#22D3EE' },
-                        purple: { 500: '#8B5CF6' }
+                        purple: { 500: '#8B5CF6' },
+                        neon: { green: '#00FF41' }
                     },
-                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'], 
+                        mono: ['JetBrains Mono', 'monospace'] 
+                    }
                 }
             }
         }
     </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap');
+        
         body { background-color: #0B1120; color: #F8FAFC; }
+        
+        /* Efeitos Visuais Premium */
         .glow-gold { box-shadow: 0 0 25px rgba(251, 191, 36, 0.15); }
-        input:focus { outline: none; box-shadow: 0 0 0 2px #FBBF24; }
-        .card-hover:hover { transform: translateY(-4px); border-color: #FBBF24; }
+        .glow-neon { box-shadow: 0 0 20px rgba(0, 255, 65, 0.3); }
+        
+        /* Animações Suaves */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Botão Pulsante Quando Ativo */
+        .btn-active { animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(0, 255, 65, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0); } }
+        
+        /* Inputs Customizados */
+        input:focus, select:focus { outline: none; border-color: #FBBF24; box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2); }
+        .checkbox-custom:checked + div { border-color: #FBBF24; background-color: rgba(251, 191, 36, 0.1); }
     </style>
 </head>
-<body class="min-h-screen font-sans antialiased p-4 md:p-8">
+<body class="min-h-screen font-sans antialiased p-4 md:p-8 flex flex-col items-center">
 
-    <div class="max-w-5xl mx-auto space-y-10">
+    <div class="w-full max-w-5xl space-y-10 pb-20">
         
         <!-- CABEÇALHO EMPÁTICO -->
-        <header class="text-center space-y-4 pt-8">
+        <header class="text-center space-y-4 pt-8 animate-in fade-in duration-700">
             <div class="inline-flex items-center justify-center p-3 bg-navy-800 rounded-full border border-gold-400/30 glow-gold mb-2">
                 <i data-lucide="shield-check" class="h-8 w-8 text-gold-400"></i>
             </div>
@@ -42,208 +65,319 @@
                 Monte seu PC <span class="text-gold-400">Sem Ser Enganado</span>
             </h1>
             <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-                Sabemos que é difícil confiar em indicações. Aqui você diz quanto tem e nós mostramos 
-                <strong class="text-white">exatamente</strong> o que comprar na Kabum, Pichau ou Amazon. 
-                Sem peças inúteis. Sem gastos escondidos.
+                Diagnóstico honesto baseado no seu bolso. Sem peças inúteis, sem surpresas no carrinho.
             </p>
         </header>
 
-        <!-- FORMULÁRIO DE CONSULTORIA -->
+        <!-- FORMULÁRIO DE DIAGNÓSTICO MODULAR -->
         <section class="bg-navy-800 border border-navy-700 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-gold-400 to-cyan-400"></div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <!-- Orçamento -->
+                <!-- 1. Orçamento -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-2">
-                        <i data-lucide="wallet" class="h-4 w-4"></i> Quanto você pode gastar?
+                        <i data-lucide="wallet" class="h-4 w-4"></i> Quanto você pode investir?
                     </label>
                     <div class="relative">
                         <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">R$</span>
-                        <input type="number" id="budget" placeholder="Ex: 3000" 
-                               class="w-full bg-navy-900 border border-navy-700 text-white text-xl font-mono pl-10 pr-4 py-4 rounded-xl focus:border-gold-400 transition">
+                        <input type="number" id="budget" placeholder="Ex: 3000" min="500"
+                               class="w-full bg-navy-900 border border-navy-700 text-white text-xl font-mono pl-10 pr-4 py-4 rounded-xl transition">
                     </div>
+                    <p id="budget-warning" class="text-xs text-rose-400 hidden mt-1">⚠️ Valor muito baixo para um PC novo. Recomendamos upgrades ou usados.</p>
                 </div>
 
-                <!-- Objetivo -->
+                <!-- 2. Objetivo -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-purple-500 uppercase tracking-widest flex items-center gap-2">
-                        <i data-lucide="target" class="h-4 w-4"></i> Para que serve o PC?
+                        <i data-lucide="target" class="h-4 w-4"></i> O que você procura?
                     </label>
-                    <select id="goal" class="w-full bg-navy-900 border border-navy-700 text-white text-lg px-4 py-4 rounded-xl focus:border-purple-500 transition appearance-none cursor-pointer">
-                        <option value="gamer">🎮 Jogar (FPS / Competitivo)</option>
-                        <option value="work">💼 Trabalhar (Edição / Design / Office)</option>
-                        <option value="study"> Estudar / Uso Básico</option>
+                    <select id="goal" class="w-full bg-navy-900 border border-navy-700 text-white text-lg px-4 py-4 rounded-xl transition appearance-none cursor-pointer">
+                        <option value="" disabled selected>Selecione uma opção...</option>
+                        <option value="parts"> Peças Avulsas (Upgrade)</option>
+                        <option value="pc_no_monitor">️ PC Montado (Sem Monitor)</option>
+                        <option value="full_setup"> Setup Completo (PC + Monitor)</option>
                     </select>
                 </div>
             </div>
 
-            <button onclick="generateConfigs()" 
-                    class="w-full bg-gold-400 hover:bg-gold-500 text-navy-900 font-black text-xl py-4 rounded-xl transition flex items-center justify-center gap-3 shadow-lg shadow-gold-400/20 group">
-                <i data-lucide="sparkles" class="h-6 w-6 group-hover:rotate-12 transition-transform"></i>
-                VER MINHAS OPÇÕES HONESTAS
+            <!-- 3. Peças e Preferências Condicionais (Gerado via JS) -->
+            <div id="dynamic-parts" class="mb-6 space-y-4 hidden fade-in">
+                <label class="text-xs font-bold text-gold-400 uppercase tracking-widest flex items-center gap-2">
+                    <i data-lucide="cpu" class="h-4 w-4"></i> Quais peças você precisa?
+                </label>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="parts-checkboxes">
+                    <!-- Checkboxes injetados aqui -->
+                </div>
+                
+                <!-- Container para Dropdowns Condicionais -->
+                <div id="conditional-options" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+
+            <!-- 4. Margem de Segurança -->
+            <div class="mb-8 space-y-2">
+                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <i data-lucide="sliders-horizontal" class="h-4 w-4"></i> Margem para oportunidades imperdíveis (+R$)
+                </label>
+                <input type="number" id="margin" placeholder="Sugestão: 10% do orçamento" 
+                       class="w-full bg-navy-900 border border-navy-700 text-white text-lg font-mono px-4 py-3 rounded-xl transition">
+            </div>
+
+            <!-- BOTÃO DE AÇÃO DINÂMICO -->
+            <button id="btn-search" onclick="buscarSolucoes()" disabled
+                    class="w-full bg-slate-800 text-slate-500 font-black text-xl py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 cursor-not-allowed">
+                <i data-lucide="search" class="h-6 w-6"></i>
+                PREENCHA OS DADOS PARA BUSCAR
             </button>
         </section>
 
-        <!-- RESULTADOS -->
-        <div id="results-container" class="hidden space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-                <i data-lucide="list-checks" class="text-gold-400"></i> Recomendações para seu bolso
-            </h2>
+        <!-- RESULTADOS DA CONSULTORIA -->
+        <div id="results-container" class="hidden space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div class="flex items-center justify-between border-b border-navy-700 pb-4">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <i data-lucide="check-circle-2" class="text-neon-green"></i> Soluções Encontradas
+                </h2>
+                <span class="text-sm text-slate-400" id="search-summary"></span>
+            </div>
             
-            <div id="cards-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div id="cards-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Cards injetados via JS -->
             </div>
         </div>
 
-        <!-- RODAPÉ DE TRANSPARÊNCIA -->
-        <footer class="text-center text-xs text-slate-600 pt-12 pb-6 border-t border-navy-800 mt-12">
-            <p>IOXCOTA v4.1 • Links diretos para lojas oficiais • Sem taxas ocultas • Sem afiliados enganosos</p>
+        <footer class="text-center text-xs text-slate-600 pt-12 border-t border-navy-800 mt-12">
+            <p>IOXCOTA v5.0 • Arquitetura Modular • Links Inteligentes • Transparência Total</p>
         </footer>
     </div>
 
+    <!-- LÓGICA DO SISTEMA -->
     <script>
-        // --- BANCO DE DADOS SIMPLIFICADO E HONESTO ---
-        // Preços médios reais de mercado (simulação para lógica)
-        const PARTS_DB = {
-            budget: { // Até R$ 2500
-                cpu: { name: "Ryzen 5 5600GT", price: 750, search: "Ryzen 5 5600GT" },
-                gpu: { name: "Gráfico Integrado Vega 7", price: 0, search: "" }, // Não precisa de GPU dedicada
-                mobo: { name: "A520M Básica", price: 350, search: "Placa Mae A520M" },
-                ram: { name: "16GB (2x8) DDR4 3200", price: 260, search: "Memoria RAM 16GB DDR4 3200" },
-                ssd: { name: "SSD NVMe 500GB", price: 230, search: "SSD NVMe 500GB" },
-                psu: { name: "Fonte 500W 80 Plus", price: 220, search: "Fonte 500W 80 Plus" },
-                case: { name: "Gabinete Gamer Entrada", price: 150, search: "Gabinete Gamer Micro ATX" }
-            },
-            mid: { // R$ 2500 - R$ 4500
-                cpu: { name: "Ryzen 5 5600", price: 850, search: "Processador Ryzen 5 5600" },
-                gpu: { name: "RX 6600 8GB", price: 1300, search: "Placa de Video RX 6600 8GB" },
-                mobo: { name: "B550M Intermediária", price: 550, search: "Placa Mae B550M" },
-                ram: { name: "16GB (2x8) DDR4 3600", price: 290, search: "Memoria RAM 16GB DDR4 3600" },
-                ssd: { name: "SSD NVMe 1TB", price: 380, search: "SSD NVMe 1TB" },
-                psu: { name: "Fonte 650W Bronze", price: 300, search: "Fonte 650W 80 Plus Bronze" },
-                case: { name: "Gabinete Airflow Médio", price: 250, search: "Gabinete Gamer Mid Tower Airflow" }
-            },
-            high: { // Acima de R$ 4500
-                cpu: { name: "Ryzen 7 5700X3D", price: 1400, search: "Processador Ryzen 7 5700X3D" },
-                gpu: { name: "RTX 4060 Ti 8GB", price: 2400, search: "Placa de Video RTX 4060 Ti 8GB" },
-                mobo: { name: "B550M Premium", price: 800, search: "Placa Mae B550M Premium" },
-                ram: { name: "32GB (2x16) DDR4 3600", price: 550, search: "Memoria RAM 32GB DDR4 3600" },
-                ssd: { name: "SSD NVMe 1TB Gen4", price: 500, search: "SSD NVMe 1TB Leitura 5000mb/s" },
-                psu: { name: "Fonte 750W Gold", price: 450, search: "Fonte 750W 80 Plus Gold" },
-                case: { name: "Gabinete Premium Mesh", price: 400, search: "Gabinete Gamer Premium Mesh" }
-            }
+        // ==========================================
+        // 1. CONFIGURAÇÃO MODULAR (REPLICÁVEL)
+        // ==========================================
+        const CONFIG_NICHO = {
+            nome: "Hardware PC",
+            categorias: [
+                { id: "cpu", label: "Processador", opcoes: ["AMD", "Intel"], dica: "Define a plataforma base" },
+                { id: "gpu", label: "Placa de Vídeo", opcoes: ["4GB VRAM", "6GB VRAM", "8GB+ VRAM"], dica: "Fator decisivo para jogos" },
+                { id: "mobo", label: "Placa Mãe", opcoes: ["AMD", "Intel"], dica: "Deve ser compatível com o CPU" },
+                { id: "storage", label: "Armazenamento", opcoes: ["SSD NVMe (Velocidade)", "HD SATA (Economia)"], dica: "Trade-off Performance vs Custo" },
+                { id: "cooler", label: "Refrigeração", opcoes: ["Air Cooler", "Water Cooler"], dica: "Silêncio e estética" },
+                { id: "case", label: "Gabinete", opcoes: ["Básico (Funcional)", "Premium (Vidro/Airflow)"], dica: "Proteção e fluxo de ar" },
+                { id: "psu", label: "Fonte", opcoes: ["400W-500W (Entrada)", "600W-700W (Intermediário)", "800W+ (High-End)"], dica: "Segurança energética" }
+            ]
         };
 
-        const STORES = [
-            { name: "Kabum", url: "https://www.kabum.com.br/cgi-bin/site/busca?q=" },
-            { name: "Pichau", url: "https://www.pichau.com.br/catalogsearch/result/?q=" },
-            { name: "Terabyte", url: "https://www.terabyteshop.com.br/busca?str=" },
-            { name: "Amazon", url: "https://www.amazon.com.br/s?k=" }
-        ];
+        // ==========================================
+        // 2. INTEGRAÇÃO LIMPA_LINK.PY (PORTADO PARA JS)
+        // ==========================================
+        const AFFILIATE_IDS = {
+            AMAZON: "coloposte-20",
+            SHOPEE: "18338650355",
+            MAGALU_BASE: "https://www.magazinevoce.com.br/magazinehdmicroloja"
+        };
 
-        function generateConfigs() {
-            const budget = Number(document.getElementById('budget').value);
-            if (!budget || budget < 1000) {
-                alert("Por favor, digite um orçamento realista (mínimo R$ 1.000).");
-                return;
+        function processarEInjetarAfiliado(urlStr) {
+            if (!urlStr || urlStr === '#') return '#';
+            try {
+                const url = new URL(urlStr);
+                const domain = url.hostname.toLowerCase();
+                // Limpa parâmetros antigos
+                const linkPuro = `${url.origin}${url.pathname}`;
+                
+                if (domain.includes('amazon.')) return `${linkPuro}?tag=${AFFILIATE_IDS.AMAZON}`;
+                if (domain.includes('shopee.')) return `${linkPuro}?uls_trackid=${AFFILIATE_IDS.SHOPEE}`;
+                // Magalu e outros retornam limpos ou base específica
+                if (domain.includes('magazineluiza.') || domain.includes('magalu.')) return AFFILIATE_IDS.MAGALU_BASE;
+                
+                return linkPuro; 
+            } catch (e) { return urlStr; }
+        }
+
+        function gerarLinksLojas(termoBusca, precoPeca, orcamentoTotal) {
+            // Filtro inteligente: Preço da peça + 20% de margem de segurança
+            const maxPrice = Math.ceil(precoPeca * 1.2); 
+            
+            return [
+                { name: "Kabum", url: `https://www.kabum.com.br/cgi-bin/site/busca?q=${encodeURIComponent(termoBusca)}&PrecoMin=0&PrecoMax=${maxPrice}` },
+                { name: "Pichau", url: `https://www.pichau.com.br/catalogsearch/result/?q=${encodeURIComponent(termoBusca)}&price_from=0&price_to=${maxPrice}` },
+                { name: "Terabyte", url: `https://www.terabyteshop.com.br/busca?str=${encodeURIComponent(termoBusca)}&min_price=0&max_price=${maxPrice}` },
+                { name: "Amazon", url: processarEInjetarAfiliado(`https://www.amazon.com.br/s?k=${encodeURIComponent(termoBusca)}`) },
+                { name: "Shopee", url: processarEInjetarAfiliado(`https://shopee.com.br/search?keyword=${encodeURIComponent(termoBusca)}`) }
+            ];
+        }
+
+        // ==========================================
+        // 3. LÓGICA DE INTERFACE E ESTADO
+        // ==========================================
+        let state = { budget: 0, goal: '', parts: [], preferences: {}, margin: 0 };
+
+        // Inicialização Dinâmica do Formulário
+        function initForm() {
+            const container = document.getElementById('parts-checkboxes');
+            CONFIG_NICHO.categorias.forEach(cat => {
+                container.innerHTML += `
+                    <label class="cursor-pointer group">
+                        <input type="checkbox" value="${cat.id}" class="checkbox-custom hidden" onchange="togglePart('${cat.id}')">
+                        <div class="border border-navy-700 bg-navy-900 rounded-xl p-3 text-center hover:border-gold-400/50 transition-all h-full flex flex-col items-center justify-center gap-2">
+                            <i data-lucide="plus" class="h-5 w-5 text-slate-500 group-hover:text-gold-400 transition-colors"></i>
+                            <span class="text-xs font-bold text-slate-300">${cat.label}</span>
+                        </div>
+                    </label>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        // Gerenciamento de Opções Condicionais
+        function togglePart(partId) {
+            const isChecked = document.querySelector(`input[value="${partId}"]`).checked;
+            const cat = CONFIG_NICHO.categorias.find(c => c.id === partId);
+            const condContainer = document.getElementById('conditional-options');
+            
+            if (isChecked) {
+                if (!state.parts.includes(partId)) state.parts.push(partId);
+                // Cria dropdown condicional se houver opções
+                if (cat.opcoes && cat.opcoes.length > 0) {
+                    const optionsHtml = cat.opcoes.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+                    condContainer.innerHTML += `
+                        <div id="cond-${partId}" class="fade-in space-y-2">
+                            <label class="text-[10px] font-bold text-cyan-400 uppercase">${cat.label} - Preferência</label>
+                            <select id="pref-${partId}" class="w-full bg-navy-900 border border-navy-700 text-sm text-white px-3 py-2 rounded-lg focus:border-cyan-400">
+                                ${optionsHtml}
+                            </select>
+                        </div>
+                    `;
+                }
+            } else {
+                state.parts = state.parts.filter(p => p !== partId);
+                const el = document.getElementById(`cond-${partId}`);
+                if (el) el.remove();
             }
+            
+            updateSearchButton();
+            lucide.createIcons();
+        }
+
+        // Validação e Ativação do Botão Verde Neon
+        function updateSearchButton() {
+            const btn = document.getElementById('btn-search');
+            const budget = Number(document.getElementById('budget').value);
+            const goal = document.getElementById('goal').value;
+            const warning = document.getElementById('budget-warning');
+
+            // Validação educativa de orçamento
+            if (budget > 0 && budget < 1000) warning.classList.remove('hidden');
+            else warning.classList.add('hidden');
+
+            const isValid = budget >= 500 && goal !== '' && state.parts.length > 0;
+            
+            if (isValid) {
+                btn.disabled = false;
+                btn.className = "w-full bg-neon-green text-navy-900 font-black text-xl py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer glow-neon btn-active hover:brightness-110";
+                btn.innerHTML = `<i data-lucide="zap" class="h-6 w-6"></i> BUSCAR SOLUÇÕES HONESTAS`;
+            } else {
+                btn.disabled = true;
+                btn.className = "w-full bg-slate-800 text-slate-500 font-black text-xl py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 cursor-not-allowed";
+                btn.innerHTML = `<i data-lucide="lock" class="h-6 w-6"></i> PREENCHA OS DADOS PARA BUSCAR`;
+            }
+            lucide.createIcons();
+        }
+
+        // Listeners para inputs principais
+        document.getElementById('budget').addEventListener('input', updateSearchButton);
+        document.getElementById('goal').addEventListener('change', () => {
+            document.getElementById('dynamic-parts').classList.remove('hidden');
+            updateSearchButton();
+        });
+        document.getElementById('margin').addEventListener('input', updateSearchButton);
+
+        // ==========================================
+        // 4. MOTOR DE BUSCA E RENDERIZAÇÃO
+        // ==========================================
+        function buscarSolucoes() {
+            state.budget = Number(document.getElementById('budget').value);
+            state.goal = document.getElementById('goal').value;
+            state.margin = Number(document.getElementById('margin').value) || 0;
+            
+            // Coleta preferências condicionais
+            state.parts.forEach(pid => {
+                const sel = document.getElementById(`pref-${pid}`);
+                if (sel) state.preferences[pid] = sel.value;
+            });
 
             const container = document.getElementById('results-container');
             const grid = document.getElementById('cards-grid');
             container.classList.remove('hidden');
             grid.innerHTML = '';
 
-            // Define 3 perfis baseados no orçamento
-            let configs = [];
+            // Simulação de Query Baseada nas Escolhas
+            const queryParts = state.parts.map(p => {
+                const cat = CONFIG_NICHO.categorias.find(c => c.id === p);
+                return state.preferences[p] ? `${cat.label} ${state.preferences[p]}` : cat.label;
+            }).join(', ');
+
+            document.getElementById('search-summary').innerText = `Orçamento: R$ ${state.budget} | Busca: ${queryParts}`;
+
+            // GERA CARD DE CONSULTORIA (Simulado para demonstração da UI)
+            // Na versão final com Worker, isso viria da API
+            const estimatedTotal = state.budget; 
+            const links = gerarLinksLojas(`PC Gamer ${queryParts}`, estimatedTotal, state.budget);
             
-            // 1. A Econômica (70% do orçamento)
-            if (budget >= 2000) {
-                configs.push(createCard("💚 A Econômica", PARTS_DB.budget, budget * 0.7, "Sobra dinheiro no bolso"));
-            }
-            
-            // 2. A Equilibrada (95% do orçamento)
-            if (budget >= 2500 && budget < 5000) {
-                configs.push(createCard("⚖️ A Equilibrada", PARTS_DB.mid, budget, "Melhor custo-benefício atual"));
-            } else if (budget >= 5000) {
-                 configs.push(createCard("⚖️ A Equilibrada", PARTS_DB.high, budget * 0.9, "Potência sem exageros"));
-            }
+            let storeButtons = links.map(l => `
+                <a href="${l.url}" target="_blank" class="flex items-center justify-between px-3 py-2 bg-navy-900 border border-navy-700 rounded-lg hover:border-gold-400 hover:bg-navy-800 transition group">
+                    <span class="text-xs font-bold text-slate-300 group-hover:text-gold-400">Ver no ${l.name}</span>
+                    <i data-lucide="external-link" class="h-3 w-3 text-slate-600 group-hover:text-gold-400"></i>
+                </a>
+            `).join('');
 
-            // 3. A Ideal / Stretch (Orçamento + 20%)
-            if (budget >= 3000) {
-                let targetBudget = budget * 1.2;
-                let dbTier = budget > 4500 ? PARTS_DB.high : PARTS_DB.mid;
-                configs.push(createCard(" A Ideal (Investimento)", dbTier, targetBudget, "Dura 3 anos a mais"));
-            }
-
-            // Renderiza os cards
-            configs.forEach(cfg => {
-                const total = cfg.parts.reduce((sum, p) => sum + p.price, 0);
-                const diff = budget - total;
-                const statusColor = diff >= 0 ? "text-emerald-400" : "text-rose-400";
-                const statusText = diff >= 0 ? `Sobra R$ ${diff}` : `Falta R$ ${Math.abs(diff)}`;
-
-                let partsHtml = cfg.parts.map(p => {
-                    if (p.price === 0) return `<div class="flex justify-between py-2 border-b border-navy-700/50"><span class="text-sm text-slate-400">${p.name}</span><span class="text-xs text-slate-500">Integrado</span></div>`;
+            grid.innerHTML = `
+                <div class="col-span-full bg-navy-800 border border-gold-400/30 rounded-2xl p-6 glow-gold fade-in">
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="p-3 bg-gold-400/10 rounded-xl border border-gold-400/30">
+                            <i data-lucide="sparkles" class="h-6 w-6 text-gold-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black text-white mb-1">Recomendação Personalizada</h3>
+                            <p class="text-sm text-slate-400">Baseado em: ${queryParts} | Orçamento: R$ ${state.budget} (+ R$ ${state.margin})</p>
+                        </div>
+                    </div>
                     
-                    let storeButtons = STORES.map(s => 
-                        `<a href="${s.url}${encodeURIComponent(p.search)}" target="_blank" class="text-[10px] font-bold px-2 py-1 bg-navy-900 border border-navy-700 rounded hover:border-gold-400 hover:text-gold-400 transition block text-center mb-1">${s.name}</a>`
-                    ).join('');
-
-                    return `
-                    <div class="flex justify-between items-start py-3 border-b border-navy-700/50 last:border-0">
-                        <div class="flex-1 pr-2">
-                            <div class="text-xs font-bold text-cyan-400 uppercase mb-0.5">${p.type || 'Peça'}</div>
-                            <div class="text-sm text-slate-200 font-medium">${p.name}</div>
-                            <div class="mt-2 flex gap-1 flex-wrap">${storeButtons}</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-widest">O que buscar nas lojas:</h4>
+                            <ul class="space-y-2 text-sm text-slate-300">
+                                ${state.parts.map(p => {
+                                    const cat = CONFIG_NICHO.categorias.find(c => c.id === p);
+                                    const pref = state.preferences[p] ? `(${state.preferences[p]})` : '';
+                                    return `<li class="flex items-center gap-2"><i data-lucide="check" class="h-3 w-3 text-emerald-400"></i> ${cat.label} ${pref}</li>`;
+                                }).join('')}
+                            </ul>
                         </div>
-                        <div class="text-right">
-                            <div class="font-mono font-bold text-white">R$ ${p.price}</div>
-                        </div>
-                    </div>`;
-                }).join('');
-
-                grid.innerHTML += `
-                <div class="bg-navy-800 border border-navy-700 rounded-2xl overflow-hidden card-hover transition-all duration-300 flex flex-col h-full">
-                    <div class="p-5 bg-navy-900/50 border-b border-navy-700">
-                        <h3 class="font-black text-lg text-white mb-1">${cfg.title}</h3>
-                        <p class="text-xs text-slate-400">${cfg.desc}</p>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col">
-                        ${partsHtml}
-                    </div>
-                    <div class="p-5 bg-navy-900/30 border-t border-navy-700">
-                        <div class="flex justify-between items-end mb-4">
-                            <div>
-                                <span class="text-[10px] text-slate-500 uppercase font-bold block">Total Estimado</span>
-                                <span class="text-2xl font-black font-mono text-gold-400">R$ ${total}</span>
+                        
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-bold text-purple-500 uppercase tracking-widest">Onde comprar (Links Filtrados):</h4>
+                            <div class="grid grid-cols-1 gap-2">
+                                ${storeButtons}
                             </div>
-                            <span class="text-xs font-bold ${statusColor} bg-navy-900 px-2 py-1 rounded border border-navy-700">${statusText}</span>
                         </div>
-                        <button onclick="copyList('${cfg.title}', ${total})" class="w-full py-3 bg-purple-500 hover:bg-purple-600 text-white font-bold rounded-xl text-sm transition flex items-center justify-center gap-2">
-                            <i data-lucide="copy" class="h-4 w-4"></i> Copiar Lista de Peças
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t border-navy-700 flex justify-between items-center">
+                        <span class="text-xs text-slate-500">💡 Dica: Os links da Amazon/Shopee já possuem nosso identificador de suporte. Kabum/Pichau são links diretos.</span>
+                        <button onclick="window.print()" class="px-4 py-2 bg-navy-900 border border-navy-700 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:border-slate-500 transition">
+                            Salvar Consulta
                         </button>
                     </div>
-                </div>`;
-            });
+                </div>
+            `;
 
             lucide.createIcons();
             container.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function createCard(title, db, targetBudget, desc) {
-            // Converte DB objeto para array de partes
-            const parts = Object.entries(db).map(([key, val]) => ({ ...val, type: key.toUpperCase() }));
-            return { title, parts, desc };
-        }
-
-        function copyList(title, total) {
-            // Lógica simplificada de cópia
-            navigator.clipboard.writeText(`Lista IOXCOTA - ${title}\nTotal: R$ ${total}\n(Confira os preços nas lojas indicadas)`);
-            alert("Lista copiada! Cole no WhatsApp ou bloco de notas.");
-        }
-
-        lucide.createIcons();
+        // Inicializa ao carregar
+        initForm();
     </script>
 </body>
 </html>
